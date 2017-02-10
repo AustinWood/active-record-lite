@@ -16,6 +16,15 @@ class SQLObject
   end
 
   def self.finalize!
+    columns.each do |col|
+      define_method(col) do
+        attributes[col]
+      end
+
+      define_method("#{col}=") do |val|
+        attributes[col] = val
+      end
+    end
   end
 
   def self.table_name=(table_name)
