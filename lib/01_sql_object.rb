@@ -80,11 +80,24 @@ class SQLObject
   end
 
   def attribute_values
-    # ...
+    p @attributes.values
+    @attributes.values
+    #self.class.columns.map { | }
   end
 
   def insert
-    # ...
+    columns = self.class.columns.drop(1)
+    col_names = columns.join(", ")
+    question_marks = (["?"] * columns.count).join(", ")
+    p col_names
+    #values = attribute_values.map { |e| e.to_s }
+    #DBConnection.execute(<<-SQL, *values)
+    DBConnection.execute(<<-SQL, *(attribute_values.drop(1)))
+      INSERT INTO
+        #{self.class.table_name} (#{col_names})
+      VALUES
+        (#{question_marks})
+    SQL
   end
 
   def update
