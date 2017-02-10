@@ -45,15 +45,11 @@ class SQLObject
       FROM
         #{self.table_name}
     SQL
-    self.parse_all(results)
+    parse_all(results)
   end
 
   def self.parse_all(results)
-    objs = []
-    results.each do |params|
-      objs << self.new(params)
-    end
-    objs
+    results.map { |params| self.new(params) }
   end
 
   def self.find(id)
