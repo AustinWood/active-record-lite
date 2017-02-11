@@ -20,7 +20,16 @@ end
 
 class BelongsToOptions < AssocOptions
   def initialize(name, options = {})
-    # ...
+    options = defaults(name).merge(options)
+    @foreign_key = options[:foreign_key]
+    @class_name = options[:class_name]
+    @primary_key = options[:primary_key]
+  end
+
+  def defaults(name)
+    foreign_key = "#{name}_id".to_sym
+    class_name = name.capitalize
+    { foreign_key: foreign_key, class_name: class_name, primary_key: :id  }
   end
 end
 
